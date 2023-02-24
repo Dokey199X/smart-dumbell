@@ -15,7 +15,6 @@ SoftwareSerial softwareSerial(PIN_MP3_RX, PIN_MP3_TX);
 DFRobotDFPlayerMini myDFPlayer;
 int count = 0;
 int count1 = 0;
-int count2 = 0;
 int threshold = -10000;
 int minDiff = 0.1;
 float prevAcceleration = 0;

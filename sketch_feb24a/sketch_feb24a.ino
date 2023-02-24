@@ -54,79 +54,148 @@ void loop() {
     String value = Serial.readStringUntil('\n');
     if (value == "Tone-up\n") {
       count1 = 15;
-    }  
+
+      switch (state) {
+        case COUNTING:
+        //Serial.print("read: ");
+        //Serial.println(ay);
+        //Serial.print("orient.: ");
+        //Serial.println(az);
+        //Serial.print("Gyro: ");
+        //Serial.println(gz);
+
+          if (abs(acceleration - prevAcceleration) > minDiff){
+
+            if (!repetitionCounted && acceleration < threshold){
+              count++;
+              Serial.print("Repetition: ");
+              Serial.println(count);
+              int t2t = count;
+              myDFPlayer.play(t2t);
+              lifted = true;
+              repetitionCounted = true;
+              delay(600);
+            }
+
+            if(lifted == true){ 
+              if(gz < -12100) {
+                Serial.println("too fast");
+                myDFPlayer.play(17);
+                delay(2000);
+                lifted = false;
+              }     
+            }
+
+            if (count > count1){
+              count = 0;
+            }
+          
+            if (orientation >= 10000 || orientation <= -10000){
+              Serial.println("incorrect orientation");
+              myDFPlayer.play(19);
+              delay(2000);
+            }
+          }
+
+          prevAcceleration = acceleration;
+          repetitionCounted = false;
+          lifted = false;
+          
+          if (Serial.available() > 0) {
+            state = CALIBRATING;
+          }
+          
+          break;
+
+        case CALIBRATING:
+          Serial.println("Enter new threshold val:");
+          
+          while (Serial.available() == 0) {
+          }
+          
+          threshold = Serial.parseInt();
+          
+          Serial.print("New threshold val: ");
+          Serial.println(threshold);
+
+          state = COUNTING;
+          break;
+      }
+      Serial.print("count:");
+      Serial.println(count);
+    } 
+    
     else if (value == "Bulk-up\n"){
       count1 = 8;
+
+      switch (state) {
+        case COUNTING:
+        //Serial.print("read: ");
+        //Serial.println(ay);
+        //Serial.print("orient.: ");
+        //Serial.println(az);
+        //Serial.print("Gyro: ");
+        //Serial.println(gz);
+
+          if (abs(acceleration - prevAcceleration) > minDiff){
+
+            if (!repetitionCounted && acceleration < threshold){
+              count++;
+              Serial.print("Repetition: ");
+              Serial.println(count);
+              int t2t = count;
+              myDFPlayer.play(t2t);
+              lifted = true;
+              repetitionCounted = true;
+              delay(600);
+            }
+
+            if(lifted == true){ 
+              if(gz < -12100) {
+                Serial.println("too fast");
+                myDFPlayer.play(17);
+                delay(2000);
+                lifted = false;
+              }     
+            }
+
+            if (count > count1){
+              count = 0;
+            }
+          
+            if (orientation >= 10000 || orientation <= -10000){
+              Serial.println("incorrect orientation");
+              myDFPlayer.play(19);
+              delay(2000);
+            }
+          }
+
+          prevAcceleration = acceleration;
+          repetitionCounted = false;
+          lifted = false;
+          
+          if (Serial.available() > 0) {
+            state = CALIBRATING;
+          }
+          
+          break;
+
+        case CALIBRATING:
+          Serial.println("Enter new threshold val:");
+          
+          while (Serial.available() == 0) {
+          }
+          
+          threshold = Serial.parseInt();
+          
+          Serial.print("New threshold val: ");
+          Serial.println(threshold);
+
+          state = COUNTING;
+          break;
+      }
+      Serial.print("count:");
+      Serial.println(count);      
     }
   }
-
-  switch (state) {
-    case COUNTING:
-    //Serial.print("read: ");
-    //Serial.println(ay);
-    //Serial.print("orient.: ");
-    //Serial.println(az);
-    //Serial.print("Gyro: ");
-    //Serial.println(gz);
-
-      if (abs(acceleration - prevAcceleration) > minDiff){
-
-        if (!repetitionCounted && acceleration < threshold){
-          count++;
-          Serial.print("Repetition: ");
-          Serial.println(count);
-          int t2t = count;
-          myDFPlayer.play(t2t);
-          lifted = true;
-          repetitionCounted = true;
-          delay(600);
-        }
-
-      if(lifted == true){ 
-        if(gz < -12100) {
-          Serial.println("too fast");
-          myDFPlayer.play(17);
-          delay(2000);
-          lifted = false;
-        }     
-      }
-      if (count > count1){
-        count = 0;
-      }
-      
-      
-
-      if (orientation >= 10000 || orientation <= -10000){
-        Serial.println("incorrect orientation");
-        myDFPlayer.play(19);
-        delay(2000);
-      }
-     }
-
-      prevAcceleration = acceleration;
-      repetitionCounted = false;
-      lifted = false;
-      
-      if (Serial.available() > 0) {
-        state = CALIBRATING;
-      }
-      
-      break;
-
-    case CALIBRATING:
-      Serial.println("Enter new threshold val:");
-      
-      while (Serial.available() == 0) {
-      }
-      
-      threshold = Serial.parseInt();
-      
-      Serial.print("New threshold val: ");
-      Serial.println(threshold);
-
-      state = COUNTING;
-      break;
-  }
-  Serial.print("count:");
-  Serial.println(count);
 }

@@ -121,16 +121,19 @@ class RestingScreen(Screen):
             self.manager.current = 'worktwo'
 
 class FirstWorkoutScreen(Screen):
-    def counter(self):
+    def __init__(self, **kwargs):
+        super(FirstWorkoutScreen, self).__init__(**kwargs)
         self.ser = serial.Serial('COM3', 9600)
+
+    def on_enter(self):
         Clock.schedule_interval(self.update, 0.1)
 
+    def update(self, dt):
         data = self.ser.readline().decode().strip()
 
         if data.startswith('count:'):
             count = int(data.split(':')[1])
-            count_label = self.sm.get_screen('count').ids.count_label
-            count_label.text = f'Count: {count}'
+            self.ids.count_label.text = f'Count: {count}'
 
 class SecondWorkoutScreen(Screen):
     pass

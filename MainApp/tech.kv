@@ -1,0 +1,766 @@
+<MyScreenManager>:
+    LoginScreen:
+        name: 'login'
+    SignupScreen:
+        name: 'signup'
+    BottomNavigation:
+        name: 'navigate'
+    TrainingScreen:
+        name: 'train'
+    ToneupScreen:
+        name: 'toneup'
+    FemToneupScreen:
+        name: 'femtoneup'
+    MaleToneupScreen:
+        name: 'maltoneup'
+    BulkupScreen:
+        name: 'bulkup'
+    FemBulkupScreen:
+        name: 'fembulkup'
+    MaleBulkupScreen:
+        name: 'malbulkup'
+    WarmupScreen:
+        name: 'warmup'
+    FirstWorkoutScreen:
+        name: 'workone'
+    SecondWorkoutScreen:
+        name: 'worktwo'
+    CongratulationsScreen:
+        name: 'congrats'
+    RestingScreen:
+        name: 'rest'
+
+<LoginScreen>:
+    Image:
+        source: "dumbbellbkg.png"
+    MDLabel:
+        text: "Log In"
+        pos_hint: {"center_y": .58}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: root.height / 10
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDTextField:
+        id:login_username
+        pos_hint: {"center_x": .5, "center_y": .48}
+        size_hint : (0.85,None)
+        hint_text: 'Username'
+        helper_text:'Required'
+        helper_text_mode:  'on_error'
+        icon_right: 'account'
+        icon_right_color: app.theme_cls.primary_color
+        required: True
+        mode: "rectangle"
+    MDTextField:
+        id:login_password
+        password: True
+        pos_hint: {"center_x": .5, "center_y": .35}
+        size_hint : (0.85,None)
+        hint_text: 'Password'
+        helper_text:'Required'
+        helper_text_mode:  'on_error'
+        icon_right: 'account'
+        icon_right_color: app.theme_cls.primary_color
+        required: True
+        mode: "rectangle"
+    MDRaisedButton:
+        text:'Login'
+        font_name: "CenturyGothic.ttf"
+        font_size: "20sp"
+        size_hint: .5, .08
+        pos_hint: {"center_x": .5, "center_y": .2}
+        md_bg_color: 0, 0, 0.5, 1
+        on_press:
+            root.login(login_username.text, login_password.text)
+    MDTextButton:
+        text: 'Create an account'
+        font_name: "CenturyGothic.ttf"
+        theme_text_color: "Custom"
+        text_color: 0, 0, 1, 1
+        pos_hint: {'center_x':0.5,'center_y':0.1}
+        on_press:
+            root.manager.current = 'signup'
+            root.manager.transition.direction = 'up'
+
+<SignupScreen>:
+    Image:
+        source: "logo.jpg"
+        pos_hint: {"y": .25}
+    MDLabel:
+        text:'Sign up'
+        font_name:"Bebas-Regular.ttf"
+        font_size: root.height / 10
+        halign:'center'
+        pos_hint: {'center_y':0.58}
+    MDTextField:
+        id:signup_username
+        pos_hint: {"center_x": .5, "center_y": .48}
+        size_hint : (0.85,None)
+        hint_text: 'Username'
+        helper_text:'Required'
+        helper_text_mode:  'on_error'
+        icon_right: 'account'
+        icon_right_color: app.theme_cls.primary_color
+        required: True
+        mode: "rectangle"
+    MDTextField:
+        id:signup_password
+        password: True
+        pos_hint: {"center_x": .5, "center_y": .35}
+        size_hint : (0.85,None)
+        hint_text: 'Password'
+        helper_text:'Required'
+        helper_text_mode:  'on_error'
+        icon_right: 'account'
+        icon_right_color: app.theme_cls.primary_color
+        required: True
+        mode: "rectangle"
+    MDRaisedButton:
+        text:'Sign up'
+        font_name: "CenturyGothic.ttf"
+        font_size: "20sp"
+        size_hint: .5, .08
+        pos_hint: {'center_x':0.5,'center_y':0.2}
+        on_press: root.signup(signup_username.text, signup_password.text)
+    MDTextButton:
+        text: 'Already have an account'
+        font_name: "CenturyGothic.ttf"
+        theme_text_color: "Custom"
+        text_color: 0, 0, 1, 1
+        pos_hint: {'center_x':0.5,'center_y':0.1}
+        on_press:
+            root.manager.current = 'login'
+            root.manager.transition.direction = 'down'
+
+<BottomNavigation>:
+    BoxLayout:
+        orientation:'vertical'
+        MDTopAppBar:
+            title: 'Smart Dumbbell'
+            md_bg_color: .2, .2, .2, 1
+            specific_text_color: 1, 1, 1, 1
+            left_action_items: [["menu", lambda x: app.callback()]]
+            right_action_items: [["dots-vertical", lambda x: app.callback()]]
+
+        MDBottomNavigation:
+            panel_color: .2, .2, .2, 1
+
+            MDBottomNavigationItem:
+                name: 'HomeScreen'
+                text: 'Home'
+                icon: 'home'
+                MDScreen:
+                    Image:
+                        source: "dumbbellbkg.png"
+                        allow_stretch: True
+                        keep_ratio: False
+                    Button:
+                        text: "LOG OUT"
+                        size_hint: .25, None
+                        height: "60dp"
+                        pos_hint: {"left": 1 }
+                        on_press:
+                            root.manager.current = 'login'
+                            root.manager.transition.direction = 'up'
+            MDBottomNavigationItem:
+                name: 'Bluetooth'
+                text: 'Connect'
+                font_size: root.height / 20
+                icon: 'bluetooth'
+                MDScreen:
+                    MDLabel:
+                        text:'Bluetooth'
+                        font_style:"H2"
+                        font_size: root.height / 20
+
+            MDBottomNavigationItem:
+                name: 'workout'
+                text: 'Workout'
+                font_size: root.height / 20
+                icon: 'dumbbell'
+                ScreenManager:
+                    TrainingScreen:
+                    ToneupScreen:
+                    FemToneupScreen:
+                    MaleToneupScreen:
+                    BulkupScreen:
+                    FemBulkupScreen:
+                    MaleBulkupScreen:
+                    WarmupScreen:
+                    FirstWorkoutScreen:
+                    SecondWorkoutScreen:
+                    CongratulationsScreen:
+
+            MDBottomNavigationItem:
+                name: 'Record'
+                text: 'Record'
+                font_size: root.height / 20
+                icon: 'chart-line'
+                MDScreen:
+                    MDLabel:
+                        text:'Graph'
+                        font_style:"H2"
+                        font_size: root.height / 20
+
+            MDBottomNavigationItem:
+                name: 'Info'
+                text: 'About'
+                font_size: root.height / 20
+                icon: 'information'
+                MDScreen:
+                    MDLabel:
+                        text:'It is a workout application where we will guide the trainees especially the beginners'
+                        pos_hint: {"center_y": .50}
+                        halign: "center"
+                        font_style:"H2"
+                        font_size: root.height / 20
+
+<TrainingScreen>:
+    Image:
+        source: "dumbbellbkg.png"
+        allow_stretch: True
+        keep_ratio: False
+    MDLabel:
+        text: "Training Exercise"
+        pos_hint: {"center_y": .60}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: root.height / 10
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDRaisedButton:
+        text:'Tone-Up'
+        font_name: "CenturyGothic.ttf"
+        font_size: "20sp"
+        text_color: 1, 1, 1, 1
+        size_hint: .5, .08
+        pos_hint: {"center_x": .5, "center_y": .50}
+        md_bg_color: 0, 0, 0.5, 1
+        on_release:
+            app.root.current = 'toneup'
+            app.root.transition.direction = 'left'
+    MDRaisedButton:
+        text:'Bulk-Up'
+        font_name: "CenturyGothic.ttf"
+        font_size: "20sp"
+        text_color: 1, 1, 1, 1
+        size_hint: .5, .08
+        pos_hint: {"center_x": .5, "center_y": .40}
+        md_bg_color: 0, 0, 0.5, 1
+        on_release:
+            app.root.current = 'bulkup'
+            app.root.transition.direction = 'left'
+
+<ToneupScreen>:
+    Image:
+        source: "dumbbellbkg.png"
+        allow_stretch: True
+        keep_ratio: False
+    MDLabel:
+        text: "Gender"
+        pos_hint: {"center_y": .60}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: root.height / 10
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDRaisedButton:
+        text:'Female'
+        font_name: "CenturyGothic.ttf"
+        font_size: "20sp"
+        text_color: 1, 1, 1, 1
+        size_hint: .5, .08
+        pos_hint: {"center_x": .5, "center_y": .50}
+        md_bg_color: 0, 0, 0.5, 1
+        on_release:
+            app.root.current = 'femtoneup'
+            app.root.transition.direction = 'left'
+    MDRaisedButton:
+        text:'Male'
+        font_name: "CenturyGothic.ttf"
+        font_size: "20sp"
+        text_color: 1, 1, 1, 1
+        size_hint: .5, .08
+        pos_hint: {"center_x": .5, "center_y": .40}
+        md_bg_color: 0, 0, 0.5, 1
+        on_release:
+            app.root.current = 'maltoneup'
+            app.root.transition.direction = 'left'
+    Button:
+        text: "BACK"
+        size_hint: .25, None
+        height: "60dp"
+        pos_hint: {"left":1}
+        on_release:
+            app.root.current = 'train'
+            app.root.transition.direction ='right'
+
+<FemToneupScreen>:
+    Image:
+        source: "dumbbellbkg.png"
+        allow_stretch: True
+        keep_ratio: False
+    MDLabel:
+        text: "RECOMMENDED TRAINING"
+        pos_hint: {"center_y": .65}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "40sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDLabel:
+        text: "FEMALE"
+        pos_hint: {"center_y": .58}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "40sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDLabel:
+        text: "Sets: 1-2"
+        pos_hint: {"center_y": .50}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "20sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDLabel:
+        text: "Repetitions: 10-12"
+        pos_hint: {"center_y": .46}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "20sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDLabel:
+        text: "Weights: 1.5kg-5kg"
+        pos_hint: {"center_y": .42}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "20sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDRaisedButton:
+        text: "START"
+        pos_hint: {"center_x":.5,"center_y":.3}
+        size_hint: .25, None
+        height: "60dp"
+        on_release:
+            app.root.current = 'warmup'
+            app.root.transition.direction ='left'
+    Button:
+        text: "BACK"
+        size_hint: .25, None
+        height: "60dp"
+        pos_hint: {"left":1}
+        on_release:
+            app.root.current = 'toneup'
+            app.root.transition.direction ='right'
+
+<MaleToneupScreen>:
+    Image:
+        source: "dumbbellbkg.png"
+        allow_stretch: True
+        keep_ratio: False
+    MDLabel:
+        text: "RECOMMENDED TRAINING"
+        pos_hint: {"center_y": .65}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "40sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDLabel:
+        text: "MALE"
+        pos_hint: {"center_y": .58}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "40sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDLabel:
+        text: "Sets: 1-2"
+        pos_hint: {"center_y": .50}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "20sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDLabel:
+        text: "Repetitions: 12-15"
+        pos_hint: {"center_y": .46}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "20sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDLabel:
+        text: "Weights: 2.5kg-12kg"
+        pos_hint: {"center_y": .42}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "20sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDRaisedButton:
+        text: "START"
+        pos_hint: {"center_x":.5,"center_y":.3}
+        size_hint: .25, None
+        height: "60dp"
+        on_release:
+            app.root.current = 'warmup'
+            app.root.transition.direction ='left'
+    Button:
+        text: "BACK"
+        size_hint: .25, None
+        height: "60dp"
+        pos_hint: {"left":1}
+        on_release:
+            app.root.current = 'toneup'
+            app.root.transition.direction ='right'
+
+<BulkupScreen>:
+    Image:
+        source: "dumbbellbkg.png"
+        allow_stretch: True
+        keep_ratio: False
+    MDLabel:
+        text: "Gender"
+        pos_hint: {"center_y": .60}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "40sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDRaisedButton:
+        text:'Female'
+        font_name: "CenturyGothic.ttf"
+        font_size: "20sp"
+        text_color: 1, 1, 1, 1
+        size_hint: .5, .08
+        pos_hint: {"center_x": .5, "center_y": .50}
+        md_bg_color: 0, 0, 0.5, 1
+        on_release:
+            app.root.current = 'fembulkup'
+            app.root.transition.direction = 'left'
+    MDRaisedButton:
+        text:'Male'
+        font_name: "CenturyGothic.ttf"
+        font_size: "20sp"
+        text_color: 1, 1, 1, 1
+        size_hint: .5, .08
+        pos_hint: {"center_x": .5, "center_y": .40}
+        md_bg_color: 0, 0, 0.5, 1
+        on_release:
+            app.root.current = 'malbulkup'
+            app.root.transition.direction = 'left'
+    Button:
+        text: "BACK"
+        size_hint: .25, None
+        height: "60dp"
+        pos_hint: {"left":1}
+        on_release:
+            app.root.current = 'train'
+            app.root.transition.direction ='right'
+
+<FemBulkupScreen>:
+    name:'femalescreenbulkup'
+    Image:
+        source: "dumbbellbkg.png"
+        allow_stretch: True
+        keep_ratio: False
+    MDLabel:
+        text: "RECOMMENDED TRAINING"
+        pos_hint: {"center_y": .65}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "40sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDLabel:
+        text: "FEMALE"
+        pos_hint: {"center_y": .58}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "40sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDLabel:
+        text: "Sets: 1-2"
+        pos_hint: {"center_y": .50}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "20sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDLabel:
+        text: "Repetitions: 5-8"
+        pos_hint: {"center_y": .46}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "20sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDLabel:
+        text: "Weights: 1.5kg-12kg"
+        pos_hint: {"center_y": .42}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "20sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDRaisedButton:
+        text: "START"
+        pos_hint: {"center_x":.5,"center_y":.3}
+        size_hint: .25, None
+        height: "60dp"
+        on_release:
+            app.root.current = 'warmup'
+            app.root.transition.direction ='left'
+    Button:
+        text: "BACK"
+        size_hint: .25, None
+        height: "60dp"
+        pos_hint: {"left":1}
+        on_release:
+            app.root.current = 'bulkup'
+            app.root.transition.direction ='right'
+
+<MaleBulkupScreen>:
+    name:'malescreenbulkup'
+    Image:
+        source: "dumbbellbkg.png"
+        allow_stretch: True
+        keep_ratio: False
+    MDLabel:
+        text: "RECOMMENDED TRAINING"
+        pos_hint: {"center_y": .65}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "40sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDLabel:
+        text: "MALE"
+        pos_hint: {"center_y": .58}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "40sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDLabel:
+        text: "Sets: 1-2"
+        pos_hint: {"center_y": .50}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "20sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDLabel:
+        text: "Repetitions: 5-8"
+        pos_hint: {"center_y": .46}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "20sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDLabel:
+        text: "Weights: 2.5kg-22kg"
+        pos_hint: {"center_y": .42}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "20sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDRaisedButton:
+        text: "START"
+        pos_hint: {"center_x":.5,"center_y":.3}
+        size_hint: .25, None
+        height: "60dp"
+        on_release:
+            app.root.current = 'warmup'
+            app.root.transition.direction ='left'
+    Button:
+        text: "BACK"
+        size_hint: .25, None
+        height: "60dp"
+        pos_hint: {"left":1}
+        on_release:
+            app.root.current = 'bukup'
+            app.root.transition.direction ='right'
+
+<WarmupScreen>:
+    orientation: 'vertical'
+    Image:
+        source: "dumbbellbkg.png"
+        allow_stretch: True
+        keep_ratio: False
+    MDLabel:
+        text: "WARM UP"
+        pos_hint: {"center_y": .60}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "40sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDLabel:
+        id: timer_label
+        pos_hint: {"center_y": .40}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "40sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+
+<FirstWorkoutScreen>:
+    Image:
+        source: "dumbbellbkg.png"
+        allow_stretch: True
+        keep_ratio: False
+    MDLabel:
+        text: "WORKOUT 1"
+        pos_hint: {"center_y": .68}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "40sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDLabel:
+        text: "1ST SET"
+        pos_hint: {"center_y": .60}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "20sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+
+    MDLabel:
+        id: count_label1
+        text: 'Count: 0'
+        halign: 'center'
+        font_style: 'H3'
+        pos_hint: {'center_y': 0.5}
+
+    MDRaisedButton:
+        text: "STOP"
+        pos_hint: {"center_x":.5,"center_y":.3}
+        size_hint: .25, None
+        height: "60dp"
+
+    Button:
+        text: "BACK"
+        size_hint: .25, None
+        height: "60dp"
+        pos_hint: {"left":1}
+        on_release:
+            app.root.current = 'warmup'
+            app.root.transition.direction ='right'
+    Button:
+        text: "Next"
+        size_hint: .25, None
+        height: "60dp"
+        pos_hint: {"right":1}
+        on_release:
+            app.root.current = 'worktwo'
+            app.root.transition.direction ='left'
+
+<RestingScreen>:
+    orientation: 'vertical'
+    MDLabel:
+        text: "Rest Up!"
+        pos_hint: {"center_y": .60}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "40sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDLabel:
+        id: resting_label
+        pos_hint: {"center_y": .40}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "40sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+
+<SecondWorkoutScreen>:
+    Image:
+        source: "dumbbellbkg.png"
+        allow_stretch: True
+        keep_ratio: False
+    MDLabel:
+        text: "WORKOUT 2"
+        pos_hint: {"center_y": .68}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "40sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDLabel:
+        text: "2ND SET"
+        pos_hint: {"center_y": .60}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "20sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDLabel:
+        id: count_label2
+        text: 'Count: 0'
+        halign: 'center'
+        font_style: 'H3'
+        pos_hint: {'center_y': 0.5}
+
+    MDRaisedButton:
+        text: "STOP"
+        pos_hint: {"center_x":.5,"center_y":.3}
+        size_hint: .25, None
+        height: "60dp"
+
+    Button:
+        text: "BACK"
+        size_hint: .25, None
+        height: "60dp"
+        pos_hint: {"left":1}
+        on_release:
+            app.root.current = 'workone'
+            app.root.transition.direction ='right'
+    Button:
+        text: "Next"
+        size_hint: .25, None
+        height: "60dp"
+        pos_hint: {"right":1}
+        on_release:
+            app.root.current = 'congrats'
+            app.root.transition.direction ='left'
+
+<CongratulationsScreen>:
+    Image:
+        source: "dumbbellbkg.png"
+        allow_stretch: True
+        keep_ratio: False
+    MDLabel:
+        text: "CONGRATS! YOU PASSED THE TRAINING"
+        pos_hint: {"center_y": .50}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: "40sp"
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    Button:
+        text: "BACK"
+        size_hint: .25, None
+        height: "60dp"
+        pos_hint: {"left":1}
+        on_release:
+            app.root.current = 'worktwo'
+            app.root.transition.direction ='right'
+    Button:
+        text: "FINISHED"
+        size_hint: .25, None
+        height: "60dp"
+        pos_hint: {"right":1}
+        on_release:
+            app.root.current = 'navigate'
+            app.root.transition.direction = 'down'

@@ -1,0 +1,28 @@
+#include <SoftwareSerial.h>
+
+SoftwareSerial BTSerial(10, 11); // RX, TX
+
+void setup() {
+  BTSerial.begin(9600); // Set the baud rate of Bluetooth module
+}
+
+void loop() {
+  // Send the serial data over Bluetooth
+  BTSerial.println("Hello from Arduino!");
+  delay(1000);
+}
+
+import serial
+
+# Set the serial port and baud rate
+port = '/dev/tty.HC-05-DevB'  # Replace with your Bluetooth serial port
+baud_rate = 9600
+
+# Create a serial object
+ser = serial.Serial(port, baud_rate)
+
+# Read the serial data
+while True:
+    if ser.in_waiting > 0:
+        line = ser.readline().decode('utf-8').rstrip()
+        print(line)

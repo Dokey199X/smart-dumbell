@@ -1,0 +1,65 @@
+<MainScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: 'Main Screen'
+        Button:
+            text: 'Go to Login Screen'
+            on_release:
+                app.root.current = 'login'
+
+<LoginScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: 'Login Screen'
+        TextInput:
+            id: username_input
+            hint_text: 'Enter username'
+            size_hint_y: None
+            height: '48dp'
+        TextInput:
+            id: password_input
+            hint_text: 'Enter password'
+            size_hint_y: None
+            height: '48dp'
+            password: True
+        Button:
+            text: 'Log In'
+            size_hint_y: None
+            height: '48dp'
+            on_release: root.do_login(username_input.text, password_input.text)
+
+<DashboardScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: 'Dashboard Screen'
+        Button:
+            text: 'Log Out'
+            size_hint_y: None
+            height: '48dp'
+            on_release: app.root.current = 'login'
+        Button:
+            text: 'Start Timer'
+            size_hint_y: None
+            height: '48dp'
+            on_release: app.root.current = 'timer'
+
+<TimerScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            id: timer_label
+            text: '10'
+            font_size: '100sp'
+
+<MyScreenManager>:
+    MainScreen:
+        name: 'main'
+    LoginScreen:
+        name: 'login'
+    DashboardScreen:
+        name: 'dashboard'
+    TimerScreen:
+        name: 'timer'

@@ -73,13 +73,19 @@ class BottomNavigation(Screen):
 class TrainingScreen(Screen):
     pass
 class ToneupScreen(Screen):
-    pass
+    def on_enter(self):
+        ser = serial.Serial('COM3', 9600)
+        ser.write(b'Tone-up\n')
+
 class FemToneupScreen(Screen):
     pass
 class MaleToneupScreen(Screen):
     pass
 class BulkupScreen(Screen):
-    pass
+    def on_enter(self):
+        ser = serial.Serial('COM3', 9600)
+        ser.write(b'Bulk-up\n')
+
 class FemBulkupScreen(Screen):
     pass
 class MaleBulkupScreen(Screen):
@@ -114,27 +120,17 @@ class RestingScreen(Screen):
             self.timer_event.cancel()
             self.manager.current = 'worktwo'
 
-def read_data_from_arduino(port='COM3', baud_rate=9600):
-    ser = serial.Serial(port, baud_rate)
-    while True:
-        try:
-            data = ser.readline().decode().strip()
-            if data.startswith('count:'):
-                count = int(data.split(':')[1])
-                yield count
-        except KeyboardInterrupt:
-            break
-    ser.close()
-
 class FirstWorkoutScreen(Screen):
-    count = NumericProperty(0)
-
     def on_enter(self):
-        Clock.schedule_interval(self.update, 0.1)
+        self.ser = serial.Serial('COM3', 9600)
+        self.timer_event = Clock.schedule_interval(self.update, 0.1)
 
     def update(self, dt):
-        for count in read_data_from_arduino():
-            self.count = count
+        data = self.ser.readline().decode().strip()
+
+        if data.startswith('count:'):
+            count = int(data.split(':')[1])
+            self.ids.count_label.text = f'Count: {count}'
 
 class SecondWorkoutScreen(Screen):
     pass

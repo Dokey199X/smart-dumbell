@@ -73,13 +73,19 @@ class BottomNavigation(Screen):
 class TrainingScreen(Screen):
     pass
 class ToneupScreen(Screen):
-    pass
+    def on_enter(self):
+        ser = serial.Serial('COM3', 9600)
+        ser.write(b'Tone-up\n')
+
 class FemToneupScreen(Screen):
     pass
 class MaleToneupScreen(Screen):
     pass
 class BulkupScreen(Screen):
-    pass
+    def on_enter(self):
+        ser = serial.Serial('COM3', 9600)
+        ser.write(b'Bulk-up\n')
+
 class FemBulkupScreen(Screen):
     pass
 class MaleBulkupScreen(Screen):
@@ -116,7 +122,7 @@ class RestingScreen(Screen):
 
 class FirstWorkoutScreen(Screen):
     def counter(self):
-        self.ser = serial.Serial('COM6', 9600)
+        self.ser = serial.Serial('COM3', 9600)
         Clock.schedule_interval(self.update, 0.1)
 
         data = self.ser.readline().decode().strip()

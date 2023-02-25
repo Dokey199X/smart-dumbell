@@ -29,6 +29,12 @@
         name: 'congrats'
     RestingScreen:
         name: 'rest'
+    ResultsScreen:
+        name: 'results'
+    ToneupChartScreen:
+        name: 'toneupchart'
+    BulkupChartScreen:
+        name: 'bulkupchart'
 
 <LoginScreen>:
     Image:
@@ -193,15 +199,14 @@
                     CongratulationsScreen:
 
             MDBottomNavigationItem:
-                name: 'Record'
-                text: 'Record'
+                name: 'results'
+                text: 'Charts'
                 font_size: root.height / 20
                 icon: 'chart-line'
-                MDScreen:
-                    MDLabel:
-                        text:'Graph'
-                        font_style:"H2"
-                        font_size: root.height / 20
+                ScreenManager:
+                    ResultsScreen:
+                    ToneupChartScreen:
+                    BulkupChartScreen:
 
             MDBottomNavigationItem:
                 name: 'Info'
@@ -293,7 +298,7 @@
         height: "60dp"
         pos_hint: {"left":1}
         on_release:
-            app.root.current = 'train'
+            app.root.current = 'navigate'
             app.root.transition.direction ='right'
 
 <FemToneupScreen>:
@@ -461,7 +466,7 @@
         height: "60dp"
         pos_hint: {"left":1}
         on_release:
-            app.root.current = 'train'
+            app.root.current = 'navigate'
             app.root.transition.direction ='right'
 
 <FemBulkupScreen>:
@@ -587,7 +592,7 @@
         height: "60dp"
         pos_hint: {"left":1}
         on_release:
-            app.root.current = 'bukup'
+            app.root.current = 'bulkup'
             app.root.transition.direction ='right'
 
 <WarmupScreen>:
@@ -614,6 +619,7 @@
         theme_color: 60/255, 43/255, 117/255, 1
 
 <FirstWorkoutScreen>:
+    count_label1: count_label1
     Image:
         source: "dumbbellbkg.png"
         allow_stretch: True
@@ -634,39 +640,24 @@
         font_size: "20sp"
         theme_text_color: "Custom"
         theme_color: 60/255, 43/255, 117/255, 1
-
     MDLabel:
-        id: count_label
-        text: 'Count: 0'
+        id: count_label1
         halign: 'center'
         font_style: 'H3'
         pos_hint: {'center_y': 0.5}
-
     MDRaisedButton:
         text: "STOP"
-        pos_hint: {"center_x":.5,"center_y":.3}
+        pos_hint: {"center_x":.5,"center_y":.2}
         size_hint: .25, None
         height: "60dp"
-
-    Button:
-        text: "BACK"
-        size_hint: .25, None
-        height: "60dp"
-        pos_hint: {"left":1}
-        on_release:
-            app.root.current = 'warmup'
-            app.root.transition.direction ='right'
-    Button:
-        text: "Next"
-        size_hint: .25, None
-        height: "60dp"
-        pos_hint: {"right":1}
-        on_release:
-            app.root.current = 'worktwo'
-            app.root.transition.direction ='left'
+        on_release: root.count_stop()
 
 <RestingScreen>:
     orientation: 'vertical'
+    Image:
+        source: "dumbbellbkg.png"
+        allow_stretch: True
+        keep_ratio: False
     MDLabel:
         text: "Rest Up!"
         pos_hint: {"center_y": .60}
@@ -685,6 +676,7 @@
         theme_color: 60/255, 43/255, 117/255, 1
 
 <SecondWorkoutScreen>:
+    count_label2: count_label2
     Image:
         source: "dumbbellbkg.png"
         allow_stretch: True
@@ -707,33 +699,15 @@
         theme_color: 60/255, 43/255, 117/255, 1
     MDLabel:
         id: count_label2
-        text: 'Count: 0'
         halign: 'center'
         font_style: 'H3'
         pos_hint: {'center_y': 0.5}
-
     MDRaisedButton:
         text: "STOP"
-        pos_hint: {"center_x":.5,"center_y":.3}
+        pos_hint: {"center_x":.5,"center_y":.2}
         size_hint: .25, None
         height: "60dp"
-
-    Button:
-        text: "BACK"
-        size_hint: .25, None
-        height: "60dp"
-        pos_hint: {"left":1}
-        on_release:
-            app.root.current = 'workone'
-            app.root.transition.direction ='right'
-    Button:
-        text: "Next"
-        size_hint: .25, None
-        height: "60dp"
-        pos_hint: {"right":1}
-        on_release:
-            app.root.current = 'congrats'
-            app.root.transition.direction ='left'
+        on_release: root.count_stop()
 
 <CongratulationsScreen>:
     Image:
@@ -748,19 +722,80 @@
         font_size: "40sp"
         theme_text_color: "Custom"
         theme_color: 60/255, 43/255, 117/255, 1
-    Button:
-        text: "BACK"
-        size_hint: .25, None
+    MDRaisedButton:
+        text: 'Finish'
+        size_hint_y: .25, None
+        pos_hint: {"center_x":.5,"center_y":.3}
         height: "60dp"
-        pos_hint: {"left":1}
+        on_release: root.save_records()
+
+<ResultsScreen>:
+    Image:
+        source: "dumbbellbkg.png"
+        allow_stretch: True
+        keep_ratio: False
+    MDLabel:
+        text: "Progress Charts"
+        pos_hint: {"center_y": .60}
+        halign: "center"
+        font_name: "Bebas-Regular.ttf"
+        font_size: root.height / 10
+        theme_text_color: "Custom"
+        theme_color: 60/255, 43/255, 117/255, 1
+    MDRaisedButton:
+        text:'Tone Up'
+        font_name: "CenturyGothic.ttf"
+        font_size: "20sp"
+        text_color: 1, 1, 1, 1
+        size_hint: .5, .08
+        pos_hint: {"center_x": .5, "center_y": .50}
+        md_bg_color: 0, 0, 0.5, 1
         on_release:
-            app.root.current = 'worktwo'
-            app.root.transition.direction ='right'
-    Button:
-        text: "FINISHED"
-        size_hint: .25, None
-        height: "60dp"
-        pos_hint: {"right":1}
+            app.root.current = 'toneupchart'
+            app.root.transition.direction = 'left'
+    MDRaisedButton:
+        text:'Bulk Up'
+        font_name: "CenturyGothic.ttf"
+        font_size: "20sp"
+        text_color: 1, 1, 1, 1
+        size_hint: .5, .08
+        pos_hint: {"center_x": .5, "center_y": .40}
+        md_bg_color: 0, 0, 0.5, 1
         on_release:
-            app.root.current = 'navigate'
-            app.root.transition.direction = 'down'
+            app.root.current = 'bulkupchart'
+            app.root.transition.direction = 'left'
+
+<ToneupChartScreen>:
+    BoxLayout:
+        orientation: "vertical"
+        canvas:
+            Color:
+                rgba: 1, 1, 1, 1
+            Rectangle:
+                pos: self.pos
+                size: self.width / 2, self.height / 2
+        BoxLayout:
+            size_hint: 0.5, 0.5
+            id: chart_layout
+            Button:
+                text: "Return"
+                on_release: app.root.current = "navigate"
+                size_hint: 1, 0.1
+
+
+<BulkupChartScreen>:
+    BoxLayout:
+        orientation: "vertical"
+        canvas:
+            Color:
+                rgba: 1, 1, 1, 1
+            Rectangle:
+                pos: self.pos
+                size: self.width / 2, self.height / 2
+        BoxLayout:
+            size_hint: 0.5, 0.5
+            id: chart_layout
+            Button:
+                text: "Return"
+                on_release: app.root.current = "navigate"
+                size_hint: 1, 0.1
